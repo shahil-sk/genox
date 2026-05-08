@@ -130,31 +130,18 @@ tui_error() {
 
 # ------------------------------------------------------------------------------
 # tui_input TITLE PROMPT DEFAULT -> sets INPUT_RESULT
-# Runs on normal screen buffer so read -e (readline) works.
-# Explicitly clears the input line before read so typed text is visible.
+# Uses plain sequential output + read so readline echoes correctly.
+# move_to is intentionally NOT used for the read line — readline ignores
+# ANSI cursor positioning and echoes at the tty's natural next line.
 # ------------------------------------------------------------------------------
 tui_input() {
     local title="$1" prompt="$2" default="$3"
-    local bw=$TW
-    (( bw < 60 )) && bw=60
-    local bh=8
-    local br=1
-    local bc=1
-    local input_row=$(( br + 4 ))
-    local input_col=$(( bc + 2 ))
-    local inner=$(( bw - 2 ))
 
     clear_screen
-    tui_box "$br" "$bc" "$bw" "$bh" "$title"
-
-    move_to $(( br + 2 )) "$input_col"
-    printf '%s%s%s' "$C_YELLOW" "$prompt" "$C_RESET"
-
-    # Clear input line inside box, then position cursor at start of it
-    move_to "$input_row" "$input_col"
-    printf '%s%-*s%s' "$C_RESET" "$(( inner - 2 ))" "" "$C_RESET"
-    move_to "$input_row" "$input_col"
-    printf '%s' "$C_WHITE"
+    printf '\n'
+    printf '%s  [ %s ]%s\n' "$C_BOLD$C_CYAN" "$title" "$C_RESET"
+    printf '%s  %s\n%s' "$C_YELLOW" "$prompt" "$C_RESET"
+    printf '%s  > %s' "$C_WHITE" "$C_RESET"
 
     INPUT_RESULT=""
     show_cursor
