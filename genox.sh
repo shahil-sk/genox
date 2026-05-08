@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 # ==============================================================================
 # genox.sh — FFmpeg batch video transcoder (entry point)
 # Pure-bash TUI (no whiptail, no extra installs required)
