@@ -130,6 +130,7 @@ tui_error() {
 
 # ------------------------------------------------------------------------------
 # tui_input TITLE PROMPT DEFAULT -> sets INPUT_RESULT
+# Drop smcup/rmcup so read -e (readline) works on the normal screen buffer.
 # ------------------------------------------------------------------------------
 tui_input() {
     local title="$1" prompt="$2" default="$3"
@@ -139,7 +140,6 @@ tui_input() {
     local br=1
     local bc=1
 
-    tput smcup 2>/dev/null || clear_screen
     clear_screen
     tui_box "$br" "$bc" "$bw" "$bh" "$title"
     move_to $(( br + 2 )) $(( bc + 2 ))
@@ -149,9 +149,8 @@ tui_input() {
 
     INPUT_RESULT=""
     show_cursor
-    read -rei "$default" -p "" INPUT_RESULT 2>/dev/null || INPUT_RESULT="$default"
+    read -rei "$default" INPUT_RESULT 2>/dev/null || INPUT_RESULT="$default"
     printf '%s' "$C_RESET"
-    tput rmcup 2>/dev/null || clear_screen
 }
 
 # ------------------------------------------------------------------------------
