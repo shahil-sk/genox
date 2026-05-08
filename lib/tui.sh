@@ -130,23 +130,27 @@ tui_error() {
 
 # ------------------------------------------------------------------------------
 # tui_input TITLE PROMPT DEFAULT -> sets INPUT_RESULT
-# Uses plain sequential output + read so readline echoes correctly.
-# move_to is intentionally NOT used for the read line — readline ignores
-# ANSI cursor positioning and echoes at the tty's natural next line.
+# Avoids read -e/-i (readline) which breaks inside TUI contexts.
+# Shows default in prompt; Enter keeps it, any other input replaces it.
 # ------------------------------------------------------------------------------
 tui_input() {
     local title="$1" prompt="$2" default="$3"
+    local _raw
 
     clear_screen
     printf '\n'
-    printf '%s  [ %s ]%s\n' "$C_BOLD$C_CYAN" "$title" "$C_RESET"
-    printf '%s  %s\n%s' "$C_YELLOW" "$prompt" "$C_RESET"
-    printf '%s  > %s' "$C_WHITE" "$C_RESET"
+    printf '%s  [ %s ]%s\n\n' "$C_BOLD$C_CYAN" "$title" "$C_RESET"
+    printf '%s  %s%s\n' "$C_YELLOW" "$prompt" "$C_RESET"
+    [[ -n "$default" ]] && printf '%s  Current: %s%s\n' "$C_WHITE" "$default" "$C_RESET"
+    printf '%s  New value (Enter to keep current): %s' "$C_GREEN" "$C_RESET"
 
-    INPUT_RESULT=""
     show_cursor
-    read -rei "$default" INPUT_RESULT 2>/dev/null || INPUT_RESULT="$default"
-    printf '%s' "$C_RESET"
+    IFS= read -r _raw
+    if [[ -z "$_raw" ]]; then
+        INPUT_RESULT="$default"
+    else
+        INPUT_RESULT="$_raw"
+    fi
 }
 
 # ------------------------------------------------------------------------------
