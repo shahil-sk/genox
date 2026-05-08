@@ -173,4 +173,6 @@ chmod +x genox.sh
 
 ## License
 
-MIT
+MIT License
+
+Copyright (c) 2026 Shahil Ahmed
