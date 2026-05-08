@@ -135,7 +135,7 @@ _encode_file() {
     if $encode_ok; then
         results_log+=" OK $file_name -> $(basename "$out_file")\n"
         log "INFO" " Done: $(basename "$out_file")"
-        notify_success "Converted [$file_index/$total]" "$file_name"
+        notify_success "Done $file_index/$total)" "$file_name"
         (( converted++ )) || true
 
         $move_after && {
@@ -228,7 +228,7 @@ process_queue() {
         tui_info "Conversion Complete" "$summary"
     fi
 
-    notify_success "Done" "Converted: $converted | Skipped: $skipped | Failed: $failed"
+    notify_success "Done" "Converted: $converted / Skip: $skipped / Failed: $failed"
     log "INFO" "Done -- Converted: $converted, Skipped: $skipped, Failed: $failed"
 }
 
