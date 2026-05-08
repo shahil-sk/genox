@@ -24,6 +24,7 @@ It also ships with quick **Presets** for common workflows: YouTube upload, archi
 
 ## How it works
 
+```
 genox/
 ├── genox.sh          ← entry point (sources lib/* in order, calls main)
 └── lib/
@@ -37,8 +38,8 @@ genox/
     ├── settings.sh   ← handle_settings (TUI settings screen)
     ├── cli.sh        ← parse_args
     └── main.sh       ← main() — init + interactive menu loop
-    
-    
+```
+   
 1. You drop video files into the **input queue folder** (`~/Videos/convert_queue` by default).
 2. You run the script, pick a workflow from the interactive TUI menu.
 3. The script uses `ffprobe` to detect each file's codec, container, frame rate, and audio format.
