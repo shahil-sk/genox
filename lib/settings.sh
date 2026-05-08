@@ -12,6 +12,7 @@ handle_settings() {
             "Move after encode: $move_after" \
             "Post-conv hook   : ${post_hook:-none}" \
             "Toggle dry-run   : $dry_run" \
+            "Parallel jobs    : $parallel_jobs" \
             "Back" || return 0
 
         case "$MENU_RESULT" in
@@ -40,7 +41,12 @@ handle_settings() {
                 post_hook="$INPUT_RESULT"
                 ;;
             6)  $dry_run && dry_run=false || dry_run=true ;;
-            7)  break ;;
+            7)  tui_input "Parallel Jobs" "Number of simultaneous encode jobs (1 = serial):" "$parallel_jobs"
+                if [[ "$INPUT_RESULT" =~ ^[1-9][0-9]*$ ]]; then
+                    parallel_jobs="$INPUT_RESULT"
+                fi
+                ;;
+            8)  break ;;
         esac
         save_config
     done

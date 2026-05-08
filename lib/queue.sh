@@ -25,17 +25,16 @@ check_disk_space() {
     return 0
 }
 
-# _encode_file FILE FILE_INDEX TOTAL EFFECTIVE_HW
-# Handles per-file probing, skipping, and encoding (real or dry-run).
-# Appends to caller's results_log; increments converted/skipped/failed.
+# ------------------------------------------------------------------------------
+# _encode_file FILE FILE_INDEX TOTAL EFFECTIVE_HW RESULT_FILE
+# Runs in a subshell (called via & for parallel mode).
+# Writes one line to RESULT_FILE: OK|SKIP|FAIL|DRY <filename> [-> outfile]
+# Never touches shared parent variables.
+# ------------------------------------------------------------------------------
 _encode_file() {
-    local file="$1" file_index="$2" total="$3" effective_hw="$4"
+    local file="$1" file_index="$2" total="$3" effective_hw="$4" result_file="$5"
     local file_name
     file_name=$(basename "$file")
-
-    local overall_pct
-    overall_pct=$(awk "BEGIN { printf \"%d\", $file_index * 100 / $total }") || overall_pct=0
-    ! $no_tui && tui_progress_update "$overall_pct" "Probing [$file_index/$total]: $file_name"
 
     # ---- Probe ---------------------------------------------------------------
     local video_codec audio_codec frame_rate_raw frame_rate keyframe_interval
@@ -56,14 +55,12 @@ _encode_file() {
     # ---- Skip guards ---------------------------------------------------------
     if [[ -z "$file_ext" ]]; then
         log "WARN" "Skip $file_name — unrecognized container"
-        results_log+=" SKIP $file_name (unrecognized format)\n"
-        (( skipped++ )) || true
+        printf 'SKIP %s (unrecognized format)\n' "$file_name" >> "$result_file"
         return 0
     fi
     if [[ ! " ${input_codecs[*]} " =~ " ${video_codec} " ]]; then
         log "INFO" "Skip $file_name — codec '$video_codec' not in list"
-        results_log+=" SKIP $file_name (codec: $video_codec)\n"
-        (( skipped++ )) || true
+        printf 'SKIP %s (codec: %s)\n' "$file_name" "$video_codec" >> "$result_file"
         return 0
     fi
 
@@ -79,20 +76,15 @@ _encode_file() {
 
     if [[ -f "$out_file" ]]; then
         log "INFO" "Skip $file_name — output exists"
-        results_log+=" SKIP $file_name (output exists)\n"
-        (( skipped++ )) || true
+        printf 'SKIP %s (output exists)\n' "$file_name" >> "$result_file"
         return 0
     fi
 
     # ---- Encode --------------------------------------------------------------
-    (( file_index++ )) || true
-    local pct2
-    pct2=$(awk "BEGIN { printf \"%d\", ($file_index-1)*100/$total }") || pct2=0
-    ! $no_tui && tui_progress_update "$pct2" "Encoding [$file_index/$total]: $file_name"
     log "INFO" "[$file_index/$total] $file_name -> $(basename "$out_file")"
 
     if $dry_run; then
-        results_log+=" DRY $file_name -> $(basename "$out_file")\n"
+        printf 'DRY %s -> %s\n' "$file_name" "$(basename "$out_file")" >> "$result_file"
         log "INFO" " [DRY RUN]"; sleep 0.2
         return 0
     fi
@@ -101,42 +93,15 @@ _encode_file() {
     IFS=' ' read -r -a venc_args <<< "$this_video_enc"
     IFS=' ' read -r -a aenc_args <<< "$this_audio_enc"
 
-    # Real per-file progress via -progress pipe
-    local total_frames encode_ok=true
-    total_frames=$(get_total_frames "$file" 2>/dev/null || echo 0)
-
-    if ! $no_tui && [[ "$total_frames" -gt 0 ]]; then
-        local progress_fifo
-        progress_fifo=$(mktemp -u /tmp/vc_prog_XXXXXX)
-        mkfifo "$progress_fifo"
-
-        ffmpeg -hide_banner -loglevel error \
-            -i "$file" "${venc_args[@]}" "${aenc_args[@]}" \
-            -map_metadata 0 -progress "$progress_fifo" \
-            "$out_file" 2>>"$log_file" &
-        local ffmpeg_pid=$!
-
-        local frame=0 fpct=0
-        while IFS='=' read -r -t 5 key val <&5 || true; do
-            [[ "$key" == "frame" ]] && frame="$val"
-            [[ "$key" == "progress" && "$val" == "end" ]] && break
-            fpct=$(awk "BEGIN { p=int($frame*100/$total_frames); print (p>100?100:p) }")
-            tui_progress_update "$fpct" "Encoding [$file_index/$total] frame $frame/$total_frames"
-        done 5<"$progress_fifo"
-
-        wait "$ffmpeg_pid" 2>/dev/null || encode_ok=false
-        rm -f "$progress_fifo"
-    else
-        ffmpeg -hide_banner -loglevel warning \
-            -i "$file" "${venc_args[@]}" "${aenc_args[@]}" \
-            -map_metadata 0 "$out_file" 2>>"$log_file" || encode_ok=false
-    fi
+    local encode_ok=true
+    ffmpeg -hide_banner -loglevel warning \
+        -i "$file" "${venc_args[@]}" "${aenc_args[@]}" \
+        -map_metadata 0 "$out_file" 2>>"$log_file" || encode_ok=false
 
     if $encode_ok; then
-        results_log+=" OK $file_name -> $(basename "$out_file")\n"
+        printf 'OK %s -> %s\n' "$file_name" "$(basename "$out_file")" >> "$result_file"
         log "INFO" " Done: $(basename "$out_file")"
-        notify_success "Done $file_index/$total)" "$file_name"
-        (( converted++ )) || true
+        notify_success "Done $file_index/$total" "$file_name"
 
         $move_after && {
             mkdir -p "$media_in/archive"
@@ -151,15 +116,50 @@ _encode_file() {
             eval "$hook_cmd" 2>>"$log_file" || log "WARN" " Hook non-zero"
         fi
     else
-        results_log+=" FAIL $file_name\n"
+        printf 'FAIL %s\n' "$file_name" >> "$result_file"
         log "ERROR" " Failed: $file_name"
         rm -f "$out_file"
         notify_error "Encode failed" "$file_name"
-        (( failed++ )) || true
     fi
 }
 
-# process_queue — discovers video files, confirms with user, calls _encode_file
+# ------------------------------------------------------------------------------
+# _tui_status_board SLOT_FILE TOTAL DONE_FILE
+# Draws a multi-slot live status board for parallel mode.
+# Reads slot state from SLOT_FILE (one line per slot: SLOT_N=<label>).
+# Reads completed count from DONE_FILE (single integer).
+# Runs in a background subshell; killed by parent when encoding done.
+# ------------------------------------------------------------------------------
+_tui_status_board() {
+    local slot_file="$1" total="$2" done_file="$3"
+    local jobs="$parallel_jobs"
+
+    while true; do
+        clear_screen
+        move_to 1 1
+        printf '%s  Parallel Encoding — %s jobs%s\n' "$C_BOLD$C_CYAN" "$jobs" "$C_RESET"
+        printf '%s  Total: %s%s\n\n' "$C_YELLOW" "$total" "$C_RESET"
+
+        local done_count=0
+        [[ -f "$done_file" ]] && done_count=$(cat "$done_file" 2>/dev/null || echo 0)
+        local pct=0
+        (( total > 0 )) && pct=$(( done_count * 100 / total ))
+
+        local slot
+        for (( slot=0; slot<jobs; slot++ )); do
+            local label="idle"
+            if [[ -f "$slot_file.$slot" ]]; then
+                label=$(cat "$slot_file.$slot" 2>/dev/null || echo "idle")
+            fi
+            printf '%s  [slot %d] %s%s\n' "$C_WHITE" "$slot" "$label" "$C_RESET"
+        done
+
+        printf '\n%s  Progress: %d/%d (%d%%)%s\n' "$C_GREEN" "$done_count" "$total" "$pct" "$C_RESET"
+        sleep 0.5
+    done
+}
+
+# process_queue — discovers video files, confirms with user, runs encode loop
 process_queue() {
     mkdir -p "$media_in" "$media_out"
 
@@ -196,26 +196,122 @@ process_queue() {
     [[ "$effective_hw" != "none" ]] && hw_label="Hardware ($effective_hw)"
 
     # ---- Confirmation --------------------------------------------------------
+    local jobs=$parallel_jobs
+    (( jobs < 1 )) && jobs=1
+
     if ! $no_tui; then
         local dry_note=""
         $dry_run && dry_note="\nDRY RUN -- nothing will be encoded."
+        local parallel_note=""
+        (( jobs > 1 )) && parallel_note="\nParallel jobs: $jobs"
         tui_confirm "Confirm Conversion" \
-            "Found $total video file(s)\nEncoder : $hw_label$dry_note\n\nStart?" || return 0
+            "Found $total video file(s)\nEncoder : $hw_label${parallel_note}${dry_note}\n\nStart?" || return 0
     fi
 
-    log "INFO" "Starting: $total files, hw=$effective_hw, dry_run=$dry_run"
+    log "INFO" "Starting: $total files, hw=$effective_hw, dry_run=$dry_run, jobs=$jobs"
 
-    local file_index=0 skipped=0 failed=0 converted=0
-    local results_log=""
+    # ---- Temp dir for inter-process communication ----------------------------
+    local tmp_dir
+    tmp_dir=$(mktemp -d /tmp/genox_XXXXXX)
+    local result_file="$tmp_dir/results"
+    local slot_base="$tmp_dir/slot"
+    local done_file="$tmp_dir/done"
+    printf '0' > "$done_file"
+    touch "$result_file"
 
-    ! $no_tui && tui_progress_init "Converting Videos -- $hw_label"
+    # ---- TUI init ------------------------------------------------------------
+    if ! $no_tui; then
+        if (( jobs > 1 )); then
+            tput smcup 2>/dev/null || clear_screen
+            _tui_status_board "$slot_base" "$total" "$done_file" &
+            local board_pid=$!
+        else
+            tui_progress_init "Converting Videos — $hw_label"
+        fi
+    fi
+
+    # ---- Semaphore encode loop -----------------------------------------------
+    local file_index=0
+    local -a pids=()
+    local -a pid_slots=()
 
     for file in "${files[@]}"; do
-        _encode_file "$file" "$file_index" "$total" "$effective_hw"
+        # Wait for a free slot when at capacity
+        while (( ${#pids[@]} >= jobs )); do
+            local new_pids=() new_slots=()
+            local p s
+            for (( i=0; i<${#pids[@]}; i++ )); do
+                p=${pids[$i]}; s=${pid_slots[$i]}
+                if kill -0 "$p" 2>/dev/null; then
+                    new_pids+=("$p"); new_slots+=("$s")
+                else
+                    wait "$p" 2>/dev/null || true
+                    rm -f "$slot_base.$s"
+                    local done_count
+                    done_count=$(cat "$done_file" 2>/dev/null || echo 0)
+                    printf '%d' $(( done_count + 1 )) > "$done_file"
+                fi
+            done
+            pids=("${new_pids[@]}"); pid_slots=("${new_slots[@]}")
+            (( ${#pids[@]} >= jobs )) && sleep 0.1
+        done
+
+        # Find free slot index
+        local slot=0
+        while printf '%s' "${pid_slots[*]}" | grep -qw "$slot" 2>/dev/null; do
+            (( slot++ ))
+        done
+
         (( file_index++ )) || true
+        local file_name
+        file_name=$(basename "$file")
+
+        # Serial TUI progress
+        if ! $no_tui && (( jobs == 1 )); then
+            local pct=$(( (file_index - 1) * 100 / total ))
+            tui_progress_update "$pct" "Encoding [$file_index/$total]: $file_name"
+        fi
+
+        # Update slot label for status board
+        printf '%s' "[$file_index/$total] $file_name" > "$slot_base.$slot"
+
+        # Launch subshell
+        ( _encode_file "$file" "$file_index" "$total" "$effective_hw" "$result_file" ) &
+        pids+=("$!"); pid_slots+=("$slot")
     done
 
-    ! $no_tui && { tui_progress_update 100 "All done!"; sleep 0.5; tui_progress_done; }
+    # Drain remaining jobs
+    for (( i=0; i<${#pids[@]}; i++ )); do
+        wait "${pids[$i]}" 2>/dev/null || true
+        rm -f "$slot_base.${pid_slots[$i]}"
+        local done_count
+        done_count=$(cat "$done_file" 2>/dev/null || echo 0)
+        printf '%d' $(( done_count + 1 )) > "$done_file"
+    done
+
+    # ---- TUI teardown --------------------------------------------------------
+    if ! $no_tui; then
+        if (( jobs > 1 )); then
+            kill "$board_pid" 2>/dev/null || true
+            wait "$board_pid" 2>/dev/null || true
+            tput rmcup 2>/dev/null || clear_screen
+        else
+            tui_progress_update 100 "All done!"; sleep 0.5; tui_progress_done
+        fi
+    fi
+
+    # ---- Tally results -------------------------------------------------------
+    local converted=0 skipped=0 failed=0 results_log=""
+    while IFS= read -r line; do
+        case "$line" in
+            OK*)   (( converted++ )); results_log+=" OK   ${line#OK }\n" ;;
+            SKIP*) (( skipped++  )); results_log+=" SKIP ${line#SKIP }\n" ;;
+            FAIL*) (( failed++   )); results_log+=" FAIL ${line#FAIL }\n" ;;
+            DRY*)  (( converted++)); results_log+=" DRY  ${line#DRY }\n" ;;
+        esac
+    done < "$result_file"
+
+    rm -rf "$tmp_dir"
 
     local summary
     summary="Converted : $converted\nSkipped : $skipped\nFailed : $failed\n"
