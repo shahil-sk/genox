@@ -43,13 +43,12 @@ tui_menu() {
     local -a items=("$@")
     local count=${#items[@]}
 
-    local bw=$(( TW * 3 / 4 ))
+    local bw=$TW
     (( bw < 60 )) && bw=60
-    (( bw > 90 )) && bw=90
     local bh=$(( count + 8 ))
     (( bh > TH - 2 )) && bh=$(( TH - 2 ))
-    local br=$(( (TH - bh) / 2 ))
-    local bc=$(( (TW - bw) / 2 ))
+    local br=1
+    local bc=1
 
     local selected=0
 
@@ -134,11 +133,11 @@ tui_error() {
 # ------------------------------------------------------------------------------
 tui_input() {
     local title="$1" prompt="$2" default="$3"
-    local bw=$(( TW * 3 / 4 ))
+    local bw=$TW
     (( bw < 60 )) && bw=60
     local bh=8
-    local br=$(( (TH - bh) / 2 ))
-    local bc=$(( (TW - bw) / 2 ))
+    local br=1
+    local bc=1
 
     tput smcup 2>/dev/null || clear_screen
     clear_screen
@@ -170,11 +169,11 @@ tui_progress_init() {
 
 tui_progress_update() {
     local pct=$1 msg="$2"
-    local bw=$(( TW * 3 / 4 ))
+    local bw=$TW
     (( bw < 60 )) && bw=60
     local bh=9
-    local br=$(( (TH - bh) / 2 ))
-    local bc=$(( (TW - bw) / 2 ))
+    local br=1
+    local bc=1
     local bar_inner=$(( bw - 6 ))
     local filled=$(( pct * bar_inner / 100 ))
     local empty=$(( bar_inner - filled ))
@@ -208,8 +207,8 @@ tui_scroll() {
     done <<< "$2"
 
     local total=${#lines[@]}
-    local bw=$(( TW - 4 ))
-    local bh=$(( TH - 4 ))
+    local bw=$(( TW - 2 ))
+    local bh=$(( TH - 2 ))
     local visible=$(( bh - 4 ))
     local offset=0
 
@@ -217,13 +216,13 @@ tui_scroll() {
 
     while true; do
         clear_screen
-        tui_box 2 2 "$bw" "$bh" "$title"
+        tui_box 1 1 "$bw" "$bh" "$title"
         local i
         for (( i=0; i<visible && offset+i<total; i++ )); do
-            move_to $(( 4 + i )) 4
+            move_to $(( 3 + i )) 3
             printf '%s%s%s' "$C_WHITE" "${lines[$((offset+i))]}" "$C_RESET"
         done
-        move_to $(( TH - 3 )) 4
+        move_to $(( TH - 3 )) 3
         printf '%s[%d/%d] ↑↓ scroll  Q/Enter quit%s' "$C_YELLOW" "$(( offset+1 ))" "$total" "$C_RESET"
 
         local key
@@ -250,11 +249,10 @@ draw_splash() {
     clear_screen
     local title=" VIDEO BATCH CONVERTER "
     local sub=" FFmpeg-powered | No extra installs required "
-    local col=$(( (TW - ${#title}) / 2 ))
 
-    move_to 2 "$col"
+    move_to 2 2
     printf '%s%s%s\n' "$C_BOLD$C_CYAN" "$title" "$C_RESET"
-    move_to 3 $(( (TW - ${#sub}) / 2 ))
+    move_to 3 2
     printf '%s%s%s' "$C_YELLOW" "$sub" "$C_RESET"
 
     sleep 0.6
