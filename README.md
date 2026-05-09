@@ -19,9 +19,11 @@ Fast, GPU-aware, and fully terminal-native.
 
 ## What is GENOX?
 
-GENOX fixes one of the most annoying parts of editing on Linux:
+GENOX fixes one of the most annoying parts of editing on davinci resolve linux:
 
 * Resolve Free struggles with H.264/H.265
+* Fix No Audio in Timeline
+* Fix Key unsupported codecs include H.264, H.265 (HEVC), and AAC audio
 * Resolve exports huge DNxHR/ProRes files
 * Batch transcoding with raw ffmpeg is painful
 
