@@ -1,7 +1,5 @@
-# GENOX
-
 <div align="center">
-
+<h1>GENOX</h1>
 <img src="https://github.com/user-attachments/assets/eace69ca-8bd4-4053-b783-6c34ca1e3ba5" width="180" alt="genox logo" />
 
 ### FFmpeg-powered batch transcoder for DaVinci Resolve workflows
