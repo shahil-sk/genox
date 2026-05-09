@@ -16,84 +16,108 @@ Fast, GPU-aware, and fully terminal-native.
 ---
 
 ## What is GENOX?
+GENOX is a Resolve-focused FFmpeg workflow generator built for Linux editors.
 
-GENOX fixes one of the most annoying parts of editing on davinci resolve linux:
+DaVinci Resolve Free on Linux has limited codec support, especially with H.264, H.265 (HEVC), and AAC audio. GENOX simplifies the process of converting footage into Resolve-friendly formats by automatically generating ready-to-run FFmpeg commands.
 
-* Resolve Free struggles with H.264/H.265
-* Fix No Audio in Timeline
-* Fix Key unsupported codecs include H.264, H.265 (HEVC), and AAC audio
-* Resolve exports huge DNxHR/ProRes files
-* Batch transcoding with raw ffmpeg is painful
+Instead of manually writing complex transcoding commands, GENOX provides an interactive workflow for importing, proxy generation, rendering, and final delivery compression.
 
-GENOX automates the entire workflow.
+## Problems GENOX Solves
+- Fix unsupported codecs in DaVinci Resolve
+- Fix missing timeline audio caused by AAC incompatibility
+- Convert H.264 / H.265 footage into editable formats
+- Compress massive DNxHR or ProRes exports
+- Batch-generate FFmpeg commands instantly
+- Simplify Linux-based Resolve workflows
 
-| Workflow | Purpose                                                       |
-| -------- | ------------------------------------------------------------- |
-| Import   | Convert camera footage into Resolve-friendly editing codecs   |
-| Render   | Compress Resolve exports into delivery-ready formats          |
-| Presets  | One-click profiles for YouTube, archive, proxy, and streaming |
+### Core Workflow Modes
+
+| Workflow  | Purpose                                              |
+| --------- | ---------------------------------------------------- |
+| Import    | Convert camera footage into Resolve-friendly codecs  |
+| Render    | Compress Resolve exports into delivery-ready formats |
+| Proxy     | Generate lightweight proxy media for smooth editing  |
+| Archive   | Create high-quality archival masters                 |
+| Streaming | Encode optimized web delivery formats                |
 
 
 ## Features
 
-* Modern terminal UI
-* Real-time progress widgets
-* Batch queue processing
-* Automatic codec detection
-* NVENC + VAAPI acceleration
-* Smart audio handling
-* Headless/CLI mode
-* Plugin + hook support
-* Queue archiving
-* Structured logging
+- Modern terminal UI
+- Real-time progress widgets
+- Batch queue processing
+- Automatic codec detection
+- NVIDIA NVENC acceleration
+- Intel/AMD VAAPI acceleration
+- CPU fallback support
+- Smart audio transcoding
+- Headless / automation mode
+- Plugin + hook system
+- Queue archiving
+- Structured logging
+- Resolve-focused preset engine
+- Lightweight pure Bash architecture
 
 
 ## Workflow Modes
 
 ### Import
 
-For editing inside DaVinci Resolve.
+Optimized for editing inside DaVinci Resolve.
 
-| Input                     | Output    |
-| ------------------------- | --------- |
-| H.264 / H.265 / AV1 / VP9 | DNxHR HQX |
-| H.264 / H.265             | MPEG-4    |
+| Input Codec   | Output Codec |
+| ------------- | ------------ |
+| H.264         | DNxHR HQX    |
+| H.265 / HEVC  | DNxHR HQX    |
+| AV1           | DNxHR HQX    |
+| VP9           | DNxHR HQX    |
+| H.264 / H.265 | MPEG-4       |
+
+#### Ideal For
+- Camera footage, OBS recordings, iPhone videos, Mirrorless cameras, Screen captures
 
 ### Render
 
-For final delivery/export.
+Optimized for final export and delivery.
 
-| Input          | Output |
-| -------------- | ------ |
-| DNxHR / ProRes | H.264  |
-| DNxHR / ProRes | H.265  |
-| DNxHR / ProRes | AV1    |
+| Input  | Output |
+| ------ | ------ |
+| DNxHR  | H.264  |
+| DNxHR  | H.265  |
+| DNxHR  | AV1    |
+| ProRes | H.264  |
+| ProRes | H.265  |
+| ProRes | AV1    |
 
+#### Ideal For
+- YouTube uploads, Client delivery, Streaming platforms, Social media exports, Web distribution
 
-## Presets
+## Built-in Presets
 
-| Preset         | Use Case                 |
-| -------------- | ------------------------ |
-| YouTube Upload | H.264 + AAC              |
-| Archive Master | DNxHR HQX + PCM          |
-| Proxy Edit     | Fast lightweight proxies |
-| Web Streaming  | AV1 + Opus               |
+| Preset         | Codec Profile             | Use Case                       |
+| -------------- | ------------------------- | ------------------------------ |
+| YouTube Upload | H.264 + AAC               | Standard uploads and delivery  |
+| Archive Master | DNxHR HQX + PCM           | High-quality long-term storage |
+| Proxy Edit     | Low bitrate intermediates | Faster editing performance     |
+| Web Streaming  | AV1 + Opus                | Efficient modern streaming     |
+| Resolve Import | ProRes / DNxHR            | Resolve-compatible ingest      |
 
 
 ## Hardware Acceleration
 
-GENOX automatically detects:
+GENOX automatically detects and prioritizes available hardware encoders.
 
-* NVIDIA NVENC
-* Intel/AMD VAAPI
-* CPU fallback
+Supported acceleration methods:
 
-Priority:
+- NVIDIA NVENC
+- Intel VAAPI
+- AMD VAAPI
+- CPU software encoding fallback
 
+Priority order:
 ```text
 NVENC → VAAPI → CPU
 ```
-
 
 ## Architecture
 
@@ -141,7 +165,7 @@ chmod +x genox.sh
 ```
 
 ### Headless Mode
-
+Perfect for automation, servers, or scripting workflows.
 ```bash
 ./genox.sh \
   --no-tui \
@@ -162,14 +186,24 @@ chmod +x genox.sh
 
 ## Why GENOX?
 
-| Traditional ffmpeg Workflow | GENOX                    |
+| Traditional FFmpeg Workflow | GENOX                    |
 | --------------------------- | ------------------------ |
-| Manual commands             | Interactive workflow     |
+| Manual command writing      | Interactive workflow     |
 | Single-file conversion      | Batch queue engine       |
-| No GPU logic                | Automatic acceleration   |
-| Raw terminal spam           | Clean live interface     |
+| No GPU management           | Automatic acceleration   |
+| Raw terminal output         | Clean live interface     |
 | Generic transcoding         | Resolve-focused pipeline |
+| Complex setup               | Preset-driven workflow   |
 
+## Design Philosophy
+
+GENOX is built around three principles:
+
+Fast transcoding workflows
+Minimal terminal friction
+Professional Resolve compatibility
+
+No bloated GUI. No unnecessary abstraction. Just efficient transcoding pipelines for Linux creators.
 
 ## License
 
