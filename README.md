@@ -4,7 +4,7 @@
 
 ### FFmpeg-powered batch transcoder for DaVinci Resolve workflows
 
-Fast, GPU-aware, and fully terminal-native.
+Fast, GPU-aware, and fully terminal-native. <a href="https://shahil-sk.github.io/genox/">Try_Web_Here</a>
 
 ![bash](https://img.shields.io/badge/Pure-Bash-black?style=flat-square\&logo=gnubash)
 ![ffmpeg](https://img.shields.io/badge/Powered%20by-FFmpeg-red?style=flat-square\&logo=ffmpeg)
@@ -15,7 +15,7 @@ Fast, GPU-aware, and fully terminal-native.
 
 ---
 
-## What is GENOX?
+## What is GENOX? 
 GENOX is a Resolve-focused FFmpeg workflow generator built for Linux editors.
 
 DaVinci Resolve Free on Linux has limited codec support, especially with H.264, H.265 (HEVC), and AAC audio. GENOX simplifies the process of converting footage into Resolve-friendly formats by automatically generating ready-to-run FFmpeg commands.
