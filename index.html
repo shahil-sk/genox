@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+<<<<<<< HEAD
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genox Web — FFmpeg Command Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+=======
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Genox Web — FFmpeg Command Generator</title>
@@ -377,305 +386,281 @@ select.form-control{appearance:none;
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
+>>>>>>> 6021d19728012ba23c3d4a85626c4257c63b5bc8
 </head>
 <body>
 
-<!-- Topbar -->
+<!-- ── Topbar ── -->
 <header class="topbar">
   <div class="logo">
     <div class="logo-mark">
-      <svg width="100%" viewBox="0 0 680 680" role="img" style="" xmlns="http://www.w3.org/2000/svg">
-  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">genox app icon</title>
-  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Genox app icon — a dark rounded-square with a stylised G mark, film-frame notches, and a forward arrow conveying video transcoding</desc>
-
-  <defs>
-    <clipPath id="icon-clip">
-      <rect x="90" y="90" width="500" height="500" rx="108"/>
-    </clipPath>
-    <linearGradient id="bg-grad" x1="90" y1="90" x2="590" y2="590" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#1a1a2e"/>
-      <stop offset="100%" stop-color="#0d0d1a"/>
-    </linearGradient>
-    <linearGradient id="accent-grad" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-      <stop offset="0%" stop-color="#5b8dee"/>
-      <stop offset="100%" stop-color="#3d6fe0"/>
-    </linearGradient>
-  </defs>
-
-  <!-- Background rounded square -->
-  <rect x="90" y="90" width="500" height="500" rx="90" fill="url(#bg-grad)" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- Film sprocket notches — top row -->
-  <rect x="148" y="108" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="204" y="108" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="260" y="108" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="316" y="108" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="372" y="108" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="428" y="108" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="484" y="108" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- Film sprocket notches — bottom row -->
-  <rect x="148" y="550" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="204" y="550" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="260" y="550" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="316" y="550" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="372" y="550" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="428" y="550" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="484" y="550" width="28" height="22" rx="5" fill="#2a2a40" style="fill:rgb(42, 42, 64);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- Thin horizontal film rails -->
-  <rect x="110" y="140" width="460" height="3" fill="#1e1e32" style="fill:rgb(30, 30, 50);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:300;text-anchor:start;dominant-baseline:auto"/>
-  <rect x="110" y="537" width="460" height="3" fill="#1e1e32" style="fill:rgb(30, 30, 50);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- Large G lettermark — outer arc (open arc via path) -->
-  <!-- G shape: big circular arc open on right, with horizontal crossbar -->
-  <path d="&#10;    M 430 262&#10;    A 142 142 0 1 0 430 418&#10;  " fill="none" stroke="#5b8dee" stroke-width="44" stroke-linecap="round" style="fill:none;stroke:rgb(91, 141, 238);color:rgb(255, 255, 255);stroke-width:44px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- G crossbar -->
-  <rect x="340" y="318" width="112" height="44" rx="8" fill="#5b8dee" style="fill:rgb(91, 141, 238);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-  <!-- Arrow chevron pointing right — transform into delivery symbol -->
-  <!-- Three stacked right-pointing chevrons suggest encode/forward -->
-  <path d="M 370 295 L 420 340 L 370 385" fill="none" stroke="#ffffff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" opacity="0.18" style="fill:none;stroke:rgb(255, 255, 255);color:rgb(255, 255, 255);stroke-width:22px;stroke-linecap:round;stroke-linejoin:round;opacity:0.18;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <path d="M 394 295 L 444 340 L 394 385" fill="none" stroke="#5b8dee" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.55" style="fill:none;stroke:rgb(91, 141, 238);color:rgb(255, 255, 255);stroke-width:18px;stroke-linecap:round;stroke-linejoin:round;opacity:0.55;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <path d="M 418 295 L 468 340 L 418 385" fill="none" stroke="#8fb3f5" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" style="fill:none;stroke:rgb(143, 179, 245);color:rgb(255, 255, 255);stroke-width:14px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-</svg>
+      <img src="logo.svg" alt="Genox logo" width="34" height="34">
     </div>
     <span class="logo-name">Genox<span> Web</span></span>
   </div>
   <div class="topbar-spacer"></div>
   <button class="btn-icon" id="themeToggle" aria-label="Toggle theme">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <!-- Icon injected by theme.js -->
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
   </button>
 </header>
 
-<!-- Hero / Description -->
 <div style="display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;height:100%">
-<div class="hero">
-  <div class="hero-text">
-    <h1>FFmpeg Command Generator</h1>
-    <p>Add your media files, choose a preset or tweak settings, then click <strong>Generate Commands</strong>. Genox Web builds the exact FFmpeg commands for you — ready to paste into any terminal. No conversion happens in the browser; everything runs locally on your machine.</p>
-    <div class="hero-badges">
-      <span class="badge badge-green">No upload — files stay local</span>
-      <span class="badge badge-blue">Instant command generation</span>
-      <span class="badge badge-warn">Paste &amp; run in terminal</span>
+
+  <!-- ── Hero Banner ── -->
+  <div class="hero">
+    <div class="hero-text">
+      <h1>FFmpeg Command Generator</h1>
+      <p>Add your media files, choose a preset or tweak settings, then click <strong>Generate Commands</strong>. Genox Web builds the exact FFmpeg commands for you — ready to paste into any terminal. No conversion happens in the browser; everything runs locally on your machine.</p>
+      <div class="hero-badges">
+        <span class="badge badge-green">No upload — files stay local</span>
+        <span class="badge badge-blue">Instant command generation</span>
+        <span class="badge badge-warn">Paste &amp; run in terminal</span>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Workspace -->
-<div class="workspace">
+  <!-- ── Workspace ── -->
+  <div class="workspace">
 
-  <!-- Main panel -->
-  <main class="panel-main">
+    <!-- Main panel -->
+    <main class="panel-main">
 
-    <!-- Input files -->
-    <section>
-      <p class="section-label">Input Files</p>
-      <input type="file" id="fileInput" multiple accept="video/*,audio/*,.mkv,.webm,.flv,.avi,.mov" style="display:none">
-      <input type="file" id="folderInput" webkitdirectory multiple style="display:none">
+      <!-- Input files -->
+      <section>
+        <p class="section-label">Input Files</p>
+        <input type="file" id="fileInput" multiple accept="video/*,audio/*,.mkv,.webm,.flv,.avi,.mov" style="display:none">
+        <input type="file" id="folderInput" webkitdirectory multiple style="display:none">
 
-      <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="Drop files or click to browse">
-        <div class="dropzone-icon">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
+        <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="Drop files or click to browse">
+          <div class="dropzone-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+          <span class="dropzone-text">Drop files here or click to browse</span>
+          <span class="dropzone-sub">MP4 · MKV · AVI · MOV · WebM · MP3 · WAV · M4A · FLV &amp; more</span>
         </div>
-        <span class="dropzone-text">Drop files here or click to browse</span>
-        <span class="dropzone-sub">MP4 · MKV · AVI · MOV · WebM · MP3 · WAV · M4A · FLV &amp; more</span>
-      </div>
 
-      <div class="btn-row">
-        <button class="btn-sm" id="addFilesBtn" style="flex:1">+ Add Files</button>
-        <button class="btn-sm" id="addFolderBtn" style="flex:1">+ Add Folder</button>
-        <button class="btn-sm" id="clearFilesBtn">Clear All</button>
-      </div>
-    </section>
+        <div class="btn-row">
+          <button class="btn-sm" id="addFilesBtn"  style="flex:1">+ Add Files</button>
+          <button class="btn-sm" id="addFolderBtn" style="flex:1">+ Add Folder</button>
+          <button class="btn-sm" id="clearFilesBtn">Clear All</button>
+        </div>
+        <p class="outpath-hint" style="margin-top:var(--space-2)">
+          <strong>Tip:</strong> Use <em>Add Folder</em> so Genox can capture relative paths. For individual files, the browser cannot read the absolute path — edit the generated commands if needed, or set an Output Path below.
+        </p>
+      </section>
 
-    <!-- File list -->
-    <section id="fileListSection" style="display:none">
-      <p class="section-label">Queue <span id="fileCountLabel" style="font-family:var(--font-mono);font-weight:400;text-transform:none;letter-spacing:0"></span></p>
-      <div id="fileList" class="file-list"></div>
-    </section>
+      <!-- File queue -->
+      <section id="fileListSection" style="display:none">
+        <p class="section-label">
+          Queue <span id="fileCountLabel" style="font-family:var(--font-mono);font-weight:400;text-transform:none;letter-spacing:0"></span>
+        </p>
+        <div id="fileList" class="file-list"></div>
+      </section>
 
-    <!-- Output path (optional, for command only) -->
-    <section>
-      <p class="section-label">Output Path <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-faint)">(optional, for command)</span></p>
-      <div class="outpath-row">
-        <div class="outpath-input-wrap">
-          <svg class="outpath-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-          </svg>
-          <input class="form-control outpath-input" id="outputPathInput" type="text"
-            placeholder="e.g. /home/user/output  or  C:\Videos\Out"
-            aria-label="Output folder path">
-          <button class="outpath-clear" id="outputPathClear" title="Clear path" style="display:none" aria-label="Clear output path">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <!-- Output path -->
+      <section>
+        <p class="section-label">
+          Output Path <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-faint)">(optional, for command)</span>
+        </p>
+        <div class="outpath-row">
+          <div class="outpath-input-wrap">
+            <svg class="outpath-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            <input class="form-control outpath-input" id="outputPathInput" type="text"
+              placeholder="e.g. /home/user/output  or  C:\Videos\Out"
+              aria-label="Output folder path">
+            <button class="outpath-clear" id="outputPathClear" title="Clear path" style="display:none" aria-label="Clear output path">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+          <button class="btn-sm outpath-browse" id="outputBrowseBtn" title="Browse for a folder">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            Browse…
           </button>
+          <input type="file" id="outputDirPicker" webkitdirectory style="display:none" aria-label="Select output folder">
         </div>
-        <button class="btn-sm outpath-browse" id="outputBrowseBtn" title="Browse for a folder">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-          </svg>
-          Browse…
-        </button>
-        <input type="file" id="outputDirPicker" webkitdirectory style="display:none" aria-label="Select output folder">
-      </div>
-      <p class="outpath-hint" id="outputPathHint">
-        Browse to select a folder, or type the full path. Left blank = output next to input file.
-      </p>
-    </section>
+        <p class="outpath-hint" id="outputPathHint">
+          Browse to select a folder, or type the full path. Left blank = output next to input file.
+        </p>
+      </section>
 
-    <!-- Generated commands -->
-    <section>
-      <p class="section-label">Generated Commands</p>
-      <div id="cmdSection" class="cmd-section">
-        <div class="cmd-empty" id="cmdEmpty">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+      <!-- Generated commands -->
+      <section>
+        <p class="section-label">Generated Commands</p>
+        <div id="cmdSection" class="cmd-section">
+          <div class="cmd-empty" id="cmdEmpty">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+            <p>Add files and click <strong>Generate Commands</strong> to see ready-to-run FFmpeg commands here.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Settings side panel -->
+    <aside class="panel-side" aria-label="Settings">
+
+      <!-- Presets -->
+      <section>
+        <p class="section-label">Presets</p>
+        <div class="preset-grid" id="presetGrid"></div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Settings tabs -->
+      <section>
+        <div class="tabs" role="tablist" aria-label="Settings tabs" style="margin-bottom:var(--space-3)">
+          <button class="tab-btn active" role="tab" aria-selected="true"  data-tab="video">Video</button>
+          <button class="tab-btn"        role="tab" aria-selected="false" data-tab="audio">Audio</button>
+          <button class="tab-btn"        role="tab" aria-selected="false" data-tab="advanced">Advanced</button>
+        </div>
+
+        <!-- Video tab -->
+        <div class="tab-panel active" id="tab-video" role="tabpanel">
+          <div class="form-group">
+            <label class="form-label" for="vcodecSelect">Video Codec</label>
+            <select class="form-control" id="vcodecSelect">
+              <option value="libx264" selected>H.264 (libx264)</option>
+              <option value="libx265">H.265 / HEVC (libx265)</option>
+              <option value="libvpx-vp9">VP9 (libvpx-vp9)</option>
+              <option value="copy">Copy (no re-encode)</option>
+            </select>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="crfInput">CRF (0–51)</label>
+              <input class="form-control" id="crfInput" type="number" min="0" max="51" value="23" placeholder="23">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bitrateInput">Video Bitrate</label>
+              <input class="form-control" id="bitrateInput" type="text" placeholder="e.g. 2000k">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="vpresetSelect">Speed Preset</label>
+            <select class="form-control" id="vpresetSelect">
+              <option>ultrafast</option><option>superfast</option><option>veryfast</option>
+              <option>faster</option><option>fast</option><option selected>medium</option>
+              <option>slow</option><option>veryslow</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="resolutionSelect">Resolution</label>
+            <select class="form-control" id="resolutionSelect">
+              <option value="">Original</option>
+              <option value="3840:2160">3840×2160 (4K)</option>
+              <option value="1920:1080">1920×1080 (1080p)</option>
+              <option value="1280:720">1280×720 (720p)</option>
+              <option value="854:480">854×480 (480p)</option>
+              <option value="640:360">640×360 (360p)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Audio tab -->
+        <div class="tab-panel" id="tab-audio" role="tabpanel">
+          <div class="form-group">
+            <label class="form-label" for="acodecSelect">Audio Codec</label>
+            <select class="form-control" id="acodecSelect">
+              <option value="aac" selected>AAC</option>
+              <option value="libmp3lame">MP3 (libmp3lame)</option>
+              <option value="ac3">AC3 (Dolby)</option>
+              <option value="libopus">Opus</option>
+              <option value="copy">Copy (no re-encode)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="abrInput">Audio Bitrate</label>
+            <input class="form-control" id="abrInput" type="text" value="128k" placeholder="128k">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sampleRateSelect">Sample Rate</label>
+            <select class="form-control" id="sampleRateSelect">
+              <option value="">Original</option>
+              <option value="44100">44100 Hz</option>
+              <option value="48000">48000 Hz</option>
+              <option value="22050">22050 Hz</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Advanced tab -->
+        <div class="tab-panel" id="tab-advanced" role="tabpanel">
+          <div class="form-group">
+            <label class="form-label" for="outputFormatSelect">Output Format</label>
+            <select class="form-control" id="outputFormatSelect">
+              <option value="mp4" selected>MP4</option>
+              <option value="mkv">MKV</option>
+              <option value="webm">WebM</option>
+              <option value="mov">MOV</option>
+              <option value="avi">AVI</option>
+              <option value="mp3">MP3</option>
+              <option value="aac">AAC</option>
+              <option value="wav">WAV</option>
+              <option value="ogg">OGG</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="trimStartInput">Trim Start (HH:MM:SS)</label>
+            <input class="form-control" id="trimStartInput" type="text" placeholder="00:00:00">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="trimDurInput">Duration / Trim End (HH:MM:SS)</label>
+            <input class="form-control" id="trimDurInput" type="text" placeholder="00:00:00">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="extraArgsInput">Extra FFmpeg Args</label>
+            <input class="form-control" id="extraArgsInput" type="text" placeholder="-threads 4 -movflags +faststart">
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Generate button -->
+      <div class="actions-bar">
+        <button id="generateBtn" class="btn-primary" style="flex:1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
           </svg>
-          <p>Add files and click <strong>Generate Commands</strong> to see ready-to-run FFmpeg commands here.</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Side panel -->
-  <aside class="panel-side" aria-label="Settings">
-
-    <!-- Presets -->
-    <section>
-      <p class="section-label">Presets</p>
-      <div class="preset-grid" id="presetGrid"></div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- Settings tabs -->
-    <section>
-      <div class="tabs" role="tablist" aria-label="Settings tabs" style="margin-bottom:var(--space-3)">
-        <button class="tab-btn active" role="tab" aria-selected="true" data-tab="video">Video</button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="audio">Audio</button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="advanced">Advanced</button>
+          Generate Commands
+        </button>
       </div>
 
-      <!-- Video -->
-      <div class="tab-panel active" id="tab-video" role="tabpanel">
-        <div class="form-group">
-          <label class="form-label" for="vcodecSelect">Video Codec</label>
-          <select class="form-control" id="vcodecSelect">
-            <option value="libx264" selected>H.264 (libx264)</option>
-            <option value="libx265">H.265 / HEVC (libx265)</option>
-            <option value="libvpx-vp9">VP9 (libvpx-vp9)</option>
-            <option value="copy">Copy (no re-encode)</option>
-          </select>
-        </div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label" for="crfInput">CRF (0–51)</label>
-            <input class="form-control" id="crfInput" type="number" min="0" max="51" value="23" placeholder="23">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="bitrateInput">Video Bitrate</label>
-            <input class="form-control" id="bitrateInput" type="text" placeholder="e.g. 2000k">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="vpresetSelect">Speed Preset</label>
-          <select class="form-control" id="vpresetSelect">
-            <option>ultrafast</option><option>superfast</option><option>veryfast</option>
-            <option>faster</option><option>fast</option><option selected>medium</option>
-            <option>slow</option><option>veryslow</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="resolutionSelect">Resolution</label>
-          <select class="form-control" id="resolutionSelect">
-            <option value="">Original</option>
-            <option value="3840:2160">3840×2160 (4K)</option>
-            <option value="1920:1080">1920×1080 (1080p)</option>
-            <option value="1280:720">1280×720 (720p)</option>
-            <option value="854:480">854×480 (480p)</option>
-            <option value="640:360">640×360 (360p)</option>
-          </select>
-        </div>
-      </div>
+    </aside>
+  </div>
 
-      <!-- Audio -->
-      <div class="tab-panel" id="tab-audio" role="tabpanel">
-        <div class="form-group">
-          <label class="form-label" for="acodecSelect">Audio Codec</label>
-          <select class="form-control" id="acodecSelect">
-            <option value="aac" selected>AAC</option>
-            <option value="libmp3lame">MP3 (libmp3lame)</option>
-            <option value="ac3">AC3 (Dolby)</option>
-            <option value="libopus">Opus</option>
-            <option value="copy">Copy (no re-encode)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="abrInput">Audio Bitrate</label>
-          <input class="form-control" id="abrInput" type="text" value="128k" placeholder="128k">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="sampleRateSelect">Sample Rate</label>
-          <select class="form-control" id="sampleRateSelect">
-            <option value="">Original</option>
-            <option value="44100">44100 Hz</option>
-            <option value="48000">48000 Hz</option>
-            <option value="22050">22050 Hz</option>
-          </select>
-        </div>
-      </div>
+  <!-- ── Status bar ── -->
+  <footer class="statusbar">
+    <div class="status-dot"></div>
+    <span id="statusText">Ready</span>
+    <div style="flex:1"></div>
+    <span style="font-family:var(--font-mono);opacity:.5;font-size:.7rem">Genox Web v2.0</span>
+  </footer>
 
-      <!-- Advanced -->
-      <div class="tab-panel" id="tab-advanced" role="tabpanel">
-        <div class="form-group">
-          <label class="form-label" for="outputFormatSelect">Output Format</label>
-          <select class="form-control" id="outputFormatSelect">
-            <option value="mp4" selected>MP4</option>
-            <option value="mkv">MKV</option>
-            <option value="webm">WebM</option>
-            <option value="mov">MOV</option>
-            <option value="avi">AVI</option>
-            <option value="mp3">MP3</option>
-            <option value="aac">AAC</option>
-            <option value="wav">WAV</option>
-            <option value="ogg">OGG</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="trimStartInput">Trim Start (HH:MM:SS)</label>
-          <input class="form-control" id="trimStartInput" type="text" placeholder="00:00:00">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="trimDurInput">Duration / Trim End (HH:MM:SS)</label>
-          <input class="form-control" id="trimDurInput" type="text" placeholder="00:00:00">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="extraArgsInput">Extra FFmpeg Args</label>
-          <input class="form-control" id="extraArgsInput" type="text" placeholder="-threads 4 -movflags +faststart">
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- Generate button -->
-    <div class="actions-bar">
-      <button id="generateBtn" class="btn-primary" style="flex:1">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-        Generate Commands
-      </button>
-    </div>
-
-  </aside>
 </div>
 
+<<<<<<< HEAD
+<!-- ── Toasts ── -->
+<div class="toast-container" id="toasts" aria-live="assertive"></div>
+
+<script type="module" src="js/main.js"></script>
+=======
 <!-- Status bar -->
 <footer class="statusbar">
   <div class="status-dot"></div>
@@ -1127,5 +1112,6 @@ function liveUpdate(){
 
 setStatus('Ready');
 </script>
+>>>>>>> 6021d19728012ba23c3d4a85626c4257c63b5bc8
 </body>
 </html>

@@ -1,0 +1,54 @@
+<svg width="100%" viewBox="0 0 680 680" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>genox app icon</title>
+  <desc>Genox app icon — a dark rounded-square with a stylised G mark, film-frame notches, and a forward arrow conveying video transcoding</desc>
+
+  <defs>
+    <clipPath id="icon-clip">
+      <rect x="90" y="90" width="500" height="500" rx="108"/>
+    </clipPath>
+    <linearGradient id="bg-grad" x1="90" y1="90" x2="590" y2="590" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0d0d1a"/>
+    </linearGradient>
+    <linearGradient id="accent-grad" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#5b8dee"/>
+      <stop offset="100%" stop-color="#3d6fe0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect x="90" y="90" width="500" height="500" rx="90" fill="url(#bg-grad)"/>
+
+  <!-- Film sprocket notches — top row -->
+  <rect x="148" y="108" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="204" y="108" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="260" y="108" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="316" y="108" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="372" y="108" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="428" y="108" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="484" y="108" width="28" height="22" rx="5" fill="#2a2a40"/>
+
+  <!-- Film sprocket notches — bottom row -->
+  <rect x="148" y="550" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="204" y="550" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="260" y="550" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="316" y="550" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="372" y="550" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="428" y="550" width="28" height="22" rx="5" fill="#2a2a40"/>
+  <rect x="484" y="550" width="28" height="22" rx="5" fill="#2a2a40"/>
+
+  <!-- Thin horizontal film rails -->
+  <rect x="110" y="140" width="460" height="3" fill="#1e1e32"/>
+  <rect x="110" y="537" width="460" height="3" fill="#1e1e32"/>
+
+  <!-- Large G lettermark — outer arc -->
+  <path d="M 430 262 A 142 142 0 1 0 430 418" fill="none" stroke="#5b8dee" stroke-width="44" stroke-linecap="round"/>
+
+  <!-- G crossbar -->
+  <rect x="340" y="318" width="112" height="44" rx="8" fill="#5b8dee"/>
+
+  <!-- Arrow chevrons pointing right -->
+  <path d="M 370 295 L 420 340 L 370 385" fill="none" stroke="#ffffff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"/>
+  <path d="M 394 295 L 444 340 L 394 385" fill="none" stroke="#5b8dee" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+  <path d="M 418 295 L 468 340 L 418 385" fill="none" stroke="#8fb3f5" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
